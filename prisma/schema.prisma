@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,15 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model post {
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(100)
+  slug      String   @unique(map: "Post_slug_key") @db.VarChar(150)
+  image     String?  @db.Text
+  content   String   @db.Text
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime
 }
