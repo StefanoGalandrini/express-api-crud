@@ -15,5 +15,5 @@ model post {
   content   String   @db.Text
   published Boolean  @default(false)
   createdAt DateTime @default(now())
-  updatedAt DateTime
+  updatedAt DateTime @default(now())
 }
