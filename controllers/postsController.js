@@ -153,7 +153,19 @@ async function update(req, res)
  */
 async function destroy(req, res)
 {
+	try
+	{
+		const { slug } = req.params;
 
+		await prisma.post.delete({
+			where: { slug }
+		});
+
+		res.status(200).json({ message: "Post successfully deleted" });
+	} catch (error)
+	{
+		res.status(500).json({ error: error.message });
+	}
 }
 
 
