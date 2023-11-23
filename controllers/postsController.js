@@ -10,7 +10,7 @@ const generateSlug = require("../utilities/generateSlug");
  * @param {express.Request} req 
  * @param {express.Response} res 
  */
-async function index(req, res)
+async function index(req, res, next)
 {
 	try
 	{
@@ -47,7 +47,7 @@ async function index(req, res)
 		res.json(posts);
 	} catch (error)
 	{
-		res.status(500).json({ error: error.message });
+		next(error);
 	}
 }
 
@@ -59,7 +59,7 @@ async function index(req, res)
  * @param {express.Request} req 
  * @param {express.Response} res 
  */
-async function create(req, res)
+async function create(req, res, next)
 {
 	try
 	{
@@ -79,7 +79,7 @@ async function create(req, res)
 		res.json(newPost);
 	} catch (error)
 	{
-		res.status(500).json({ error: error.message });
+		next(error);
 	}
 }
 
@@ -90,7 +90,7 @@ async function create(req, res)
  * @param {express.Request} req 
  * @param {express.Response} res 
  */
-async function show(req, res)
+async function show(req, res, next)
 {
 	try
 	{
@@ -108,7 +108,7 @@ async function show(req, res)
 		}
 	} catch (error)
 	{
-		res.status(500).json({ error: error.message });
+		next(error);
 	}
 }
 
@@ -119,7 +119,7 @@ async function show(req, res)
  * @param {express.Request} req 
  * @param {express.Response} res 
  */
-async function update(req, res)
+async function update(req, res, next)
 {
 	try
 	{
@@ -138,7 +138,7 @@ async function update(req, res)
 		res.json(updatedPost);
 	} catch (error)
 	{
-		res.status(500).json({ error: error.message });
+		next(error);
 	}
 }
 
@@ -151,7 +151,7 @@ async function update(req, res)
  * @param {express.Request} req 
  * @param {express.Response} res 
  */
-async function destroy(req, res)
+async function destroy(req, res, next)
 {
 	try
 	{
@@ -164,7 +164,7 @@ async function destroy(req, res)
 		res.status(200).json({ message: "Post successfully deleted" });
 	} catch (error)
 	{
-		res.status(500).json({ error: error.message });
+		next(error);
 	}
 }
 
