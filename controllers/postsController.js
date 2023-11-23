@@ -14,7 +14,36 @@ async function index(req, res)
 {
 	try
 	{
-		const posts = await prisma.post.findMany();
+		const { published, string } = req.query;
+		let queryOptions = {};
+		if (published)
+		{
+			queryOptions.where = {
+				...queryOptions.where,
+				published: published === "true"
+			};
+		}
+
+		if (string)
+		{
+			queryOptions.where = {
+				...queryOptions.where,
+				OR: [
+					{
+						title: {
+							contains: string,
+						}
+					},
+					{
+						content: {
+							contains: string,
+						}
+					},
+				],
+			};
+		}
+
+		const posts = await prisma.post.findMany(queryOptions);
 		res.json(posts);
 	} catch (error)
 	{
