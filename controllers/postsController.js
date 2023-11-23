@@ -52,9 +52,41 @@ async function index(req, res)
 }
 
 
+// create - create a new post
+
+/**
+ * 
+ * @param {express.Request} req 
+ * @param {express.Response} res 
+ */
+async function create(req, res)
+{
+	try
+	{
+		const { title, image, content, published } = req.body;
+		const slug = await generateSlug(title);
+
+		const newPost = await prisma.post.create({
+			data: {
+				title,
+				slug,
+				image,
+				content,
+				published,
+			}
+		});
+
+		res.json(newPost);
+	} catch (error)
+	{
+		res.status(500).json({ error: error.message });
+	}
+}
+
 
 
 
 module.exports = {
 	index,
+	create,
 };
