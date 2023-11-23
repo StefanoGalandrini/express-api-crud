@@ -1,7 +1,7 @@
-const express = require('express');
-const { PrismaClient } = require('@prisma/client');
+const express = require("express");
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const generateSlug = require('../utilities/generateSlug');
+const generateSlug = require("../utilities/generateSlug");
 
 // index - read all posts
 
@@ -84,9 +84,40 @@ async function create(req, res)
 }
 
 
+// show - read a single post by slug
+/**
+ * 
+ * @param {express.Request} req 
+ * @param {express.Response} res 
+ */
+async function show(req, res)
+{
+	try
+	{
+		const { slug } = req.params;
+		const post = await prisma.post.findUnique({
+			where: { slug: slug },
+		});
+
+		if (post)
+		{
+			res.json(post);
+		} else
+		{
+			res.status(404).json({ error: `Post with slug ${slug} not found` });
+		}
+	} catch (error)
+	{
+		res.status(500).json({ error: error.message });
+	}
+}
+
+
+
 
 
 module.exports = {
 	index,
 	create,
+	show,
 };
