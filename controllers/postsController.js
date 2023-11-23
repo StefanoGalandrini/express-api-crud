@@ -113,6 +113,50 @@ async function show(req, res)
 }
 
 
+// update - update a single post by slug
+/**
+ * 
+ * @param {express.Request} req 
+ * @param {express.Response} res 
+ */
+async function update(req, res)
+{
+	try
+	{
+		const { slug } = req.params;
+
+		if (req.body.title)
+		{
+			req.body.slug = await generateSlug(req.body.title);
+		}
+
+		const updatedPost = await prisma.post.update({
+			where: { slug: slug },
+			data: req.body,
+		});
+
+		res.json(updatedPost);
+	} catch (error)
+	{
+		res.status(500).json({ error: error.message });
+	}
+}
+
+
+
+
+// delete - delete a single post by slug
+/**
+ * 
+ * @param {express.Request} req 
+ * @param {express.Response} res 
+ */
+async function destroy(req, res)
+{
+
+}
+
+
 
 
 
@@ -120,4 +164,6 @@ module.exports = {
 	index,
 	create,
 	show,
+	update,
+	destroy
 };
